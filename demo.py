@@ -8,6 +8,7 @@
 
 # ## import data
 import os
+import config
 import spacy
 from spacy import displacy
 from spacy.pipeline import EntityRecognizer
@@ -43,14 +44,13 @@ def text_to_flowchart(example):
     
     # Define decision words. Currently hard-coded based on web search. Can be improved by ML
 
-    decision_words = ['separar', 'divorciar', 'mudar', 'noivar', 'especificar', 'decidir', 'concordar', 'determinar', 'precisar', 'concluir', 'resolver', 'resolver', 'comprometer', 'julgar', 'verificar', 'validar', 'garantir ']
 
     # List of Entities and Patterns (source: https://spacy.io/usage/rule-based-matching)
     pattern_decision = [
                     {'label':'DECISION',
                      'pattern':[
                                  {'POS':{'IN':['ADJ','NOUN','PART','PRON','SCONJ','ADV']},'OP':'{0,}'},
-                                 {'LEMMA':{'IN':decision_words}},
+                                 {'LEMMA':{'IN':config.DECISION_WORDS}},
                                  {'ORTH':',','OP':'{0,1}'},
                                  {'POS':{'IN':['ADJ','NOUN','PART','DET','ADP','VERB','PRON','CCONJ']},'OP':'{0,}'},
                                  {'ORTH':',','OP':'{0,1}'},
@@ -63,7 +63,7 @@ def text_to_flowchart(example):
                     {'label':'ACTION',
                      'pattern':[
                                  {'POS':{'IN':['ADJ','NOUN','PART','PRON','SCONJ','ADV']},'OP':'{0,}'},
-                                 {'DEP':'ROOT','POS':'VERB','LEMMA':{'NOT_IN':decision_words}},
+                                 {'DEP':'ROOT','POS':'VERB','LEMMA':{'NOT_IN':config.DECISION_WORDS}},
                                  {'ORTH':',','OP':'{0,1}'},
                                  {'POS':{'IN':['ADJ','NOUN','PART','DET','ADP',\
                                                'VERB','PRON','CCONJ']},'OP':'{0,}'},
@@ -101,9 +101,9 @@ def text_to_flowchart(example):
     extraction_df.to_csv(text_title+'.csv',index = False)
     #flowchart_generate(example, decision_words)
 
-    return extraction_df, decision_words
+    return extraction_df
 
-def flowchart_generate(extraction_df, decision_words, text_title):
+def flowchart_generate(extraction_df, text_title):
 
     source = [d for d in extraction_df['entity_lemma_text']]
     target = [i for i in source[1:]]
@@ -133,10 +133,10 @@ def flowchart_generate(extraction_df, decision_words, text_title):
                    first_n_words(list(G.nodes)[-1],n)]
 
     decision_nodes = [first_n_words(item,n) for i,item in enumerate(list(G.nodes)) for decision_word in \
-                      decision_words if decision_word in item and i not in [0,-1]]
+                      config.DECISION_WORDS if decision_word in item and i not in [0,-1]]
 
 
-    other_nodes = [first_n_words(i,n) for i in list(G.nodes) for decision_word in decision_words \
+    other_nodes = [first_n_words(i,n) for i in list(G.nodes) for decision_word in config.DECISION_WORDS \
                    if decision_word not in i and first_n_words(i,n) not in start_end_nodes and first_n_words(i,n) not in decision_nodes]
 
     node_color_list = []
