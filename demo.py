@@ -240,8 +240,7 @@ def text_to_flowchart(example):
     
     displacy_colors = {'ACTION': 'linear-gradient(90deg, #B2BEBF, #889C9B)','DECISION': 'linear-gradient(90deg, #73c5f5, #05A0FA)'}
     displacy_options = {'ents': ['ACTION','DECISION'], 'colors': displacy_colors}
-    
-    print(displacy.render(doc,style='ent',options=displacy_options))
-    return plt.show()
+
+    return plt.savefig('fig.png')
 
 
