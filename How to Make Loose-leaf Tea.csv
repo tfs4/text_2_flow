@@ -1,0 +1,7 @@
+entity_lemma_label,entity_lemma_text
+DECISION,need a tea infuser
+ACTION,fill the infuser with the amount of tea specified on the package for
+DECISION,how many servings you need
+ACTION,"bring fresh, cold water to a rolling boil"
+ACTION,remove the tea infuser from the cup or pot
+ACTION,"finish with milk, your preferred sweetener"
