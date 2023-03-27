@@ -42,9 +42,8 @@ def text_to_flowchart(example):
     ruler = nlp.add_pipe('entity_ruler',before='ner')
     
     # Define decision words. Currently hard-coded based on web search. Can be improved by ML
-    
-    decision_words=['especificar','decidir','concordar','determinar', 'necessidade', 'concluir', 'resolver', 'resolver', 'comprometer', 'julgar', 'verificar', 'validar', 'garantir']
 
+    decision_words = ['especificar', 'decidir', 'concordar', 'determinar', 'precisar', 'concluir', 'resolver', 'resolver', 'comprometer', 'julgar', 'verificar', 'validar', 'garantir ']
 
     # List of Entities and Patterns (source: https://spacy.io/usage/rule-based-matching)
     pattern_decision = [
@@ -53,8 +52,7 @@ def text_to_flowchart(example):
                                  {'POS':{'IN':['ADJ','NOUN','PART','PRON','SCONJ','ADV']},'OP':'{0,}'},
                                  {'LEMMA':{'IN':decision_words}},
                                  {'ORTH':',','OP':'{0,1}'},
-                                 {'POS':{'IN':['ADJ','NOUN','PART','DET','ADP',\
-                                               'VERB','PRON','CCONJ']},'OP':'{0,}'},
+                                 {'POS':{'IN':['ADJ','NOUN','PART','DET','ADP','VERB','PRON','CCONJ']},'OP':'{0,}'},
                                  {'ORTH':',','OP':'{0,1}'},
                                  {'POS':{'IN':['ADJ','NOUN','PART','DET','ADP','PRON','CCONJ']},'OP':'{0,}'}
                                ]}
