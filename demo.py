@@ -43,7 +43,7 @@ def text_to_flowchart(example):
     
     # Define decision words. Currently hard-coded based on web search. Can be improved by ML
 
-    decision_words = ['especificar', 'decidir', 'concordar', 'determinar', 'precisar', 'concluir', 'resolver', 'resolver', 'comprometer', 'julgar', 'verificar', 'validar', 'garantir ']
+    decision_words = ['separar', 'divorciar', 'mudar', 'noivar', 'especificar', 'decidir', 'concordar', 'determinar', 'precisar', 'concluir', 'resolver', 'resolver', 'comprometer', 'julgar', 'verificar', 'validar', 'garantir ']
 
     # List of Entities and Patterns (source: https://spacy.io/usage/rule-based-matching)
     pattern_decision = [
@@ -99,8 +99,11 @@ def text_to_flowchart(example):
     
     # save extraction_df to csv
     extraction_df.to_csv(text_title+'.csv',index = False)
-    
-        # ### Create relationship for actions
+    #flowchart_generate(example, decision_words)
+
+    return extraction_df, decision_words
+
+def flowchart_generate(extraction_df, decision_words, text_title):
 
     source = [d for d in extraction_df['entity_lemma_text']]
     target = [i for i in source[1:]]
@@ -123,7 +126,7 @@ def text_to_flowchart(example):
                             edge_attr='edge_value',
                             edge_key='edge',
                             create_using=nx.Graph())
-    
+
     #Extract first 4 words from each node for flowchar
     n = 4
     start_end_nodes = [first_n_words(list(G.nodes)[0],n),
@@ -234,7 +237,7 @@ def text_to_flowchart(example):
                         'color': 'k',
                         'verticalalignment': 'baseline',
                         'horizontalalignment': 'center'})
-    
+
     displacy_colors = {'ACTION': 'linear-gradient(90deg, #B2BEBF, #889C9B)','DECISION': 'linear-gradient(90deg, #73c5f5, #05A0FA)'}
     displacy_options = {'ents': ['ACTION','DECISION'], 'colors': displacy_colors}
 

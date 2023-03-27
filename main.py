@@ -1,11 +1,10 @@
-from demo import text_to_flowchart
+import demo
 from additional_viz import viz
 
 
 if __name__ == '__main__':
     texto = '''
-     Se você optar por infundir chá de folhas soltas, precisará de um infusor de chá. Encha o infusor com a quantidade de chá especificada na embalagem para quantas porções você precisa. Leve água fresca e fria para ferver. Depois de ferver, despeje sobre o infusor de chá (ou abaixe o infusor na panela) e deixe em infusão de acordo com o tempo acima com base na sua variedade de chá. Remova o infusor de chá da xícara ou bule.
-     Se desejar, finalize com leite, separar de João adoçante de sua preferência ou uma rodela de frutas cítricas.
+    joão se casou com maria em março de 2020, o casal optou por união estável de bens, três anos depois o casal se mudou para a cobertura de frente para a praia de copacabana de joão, em março de 2022 nasceu josé, primeiro filho do casal, três anos depois o casal decidiu se separar, agora joão terá que pagar uma pensão de cinco mil reais para maria
     '''
 
     titulo = 'teste'
@@ -15,4 +14,5 @@ if __name__ == '__main__':
     example1 = {titulo: texto}
 
 
-    text_to_flowchart(example1)
+    extraction_df, decision_words = demo.text_to_flowchart(example1)
+    #demo.flowchart_generate(extraction_df, decision_words, 'Caso de João e Maria')
